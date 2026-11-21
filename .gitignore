@@ -1,0 +1,39 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.envrc
+.dev.vars
+.dev.vars.*
+.npmrc
+.netrc
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies, runtime data, and generated output
+node_modules/
+.cache/
+.wrangler/
+.studio-data/
+.studio-worker-data/
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+
+/apps/crazy-project-manager/dist/.openai/
+/apps/crazy-project-manager/dist/client/
+/apps/crazy-project-manager/dist/server/
+/apps/sunset-studio/dist/
+
+# Local archives and OS metadata
+*.tar.gz
+*.zip
+.DS_Store
+Thumbs.db

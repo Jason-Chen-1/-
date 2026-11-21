@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#242723"><meta name="description" content="Three opinions. One poster. A face-to-face, English-speaking design comedy set in a sunset-lit West Coast studio.">
+ <title>Sunset Studio — The Last Revision</title>
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='18' fill='%23f3b354'/%3E%3Cpath d='M14 49a26 26 0 0 1 52 0M10 54h60M20 62h40' fill='none' stroke='%23242723' stroke-width='6'/%3E%3C/svg%3E">
+ <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="cinematic.css"><link rel="stylesheet" href="workbench.css"><link rel="stylesheet" href="live.css"><link rel="stylesheet" href="focus.css">
+</head>
+<body class="focus-layout">
+ <header class="topbar">
+  <a class="wordmark" href="./" aria-label="Sunset Studio home"><svg viewBox="0 0 44 35" aria-hidden="true"><path d="M7 24a15 15 0 0 1 30 0M2 27h40M10 33h24"/></svg><span>SUNSET<span class="wordmark-light">STUDIO</span></span></a>
+  <div class="top-center" id="live-badge">OFFLINE DEMO</div>
+  <div class="header-controls"><button id="fullscreen-button" class="icon-button" aria-label="Full screen" aria-pressed="false" title="全屏 / Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
+  <details id="studio-menu" class="studio-menu"><summary aria-label="Studio menu">•••</summary><div class="top-actions"><button id="fish-settings" class="text-button">Fish Audio · voices</button><button id="pause-meeting" class="text-button" disabled>Pause meeting</button><button id="type-instead" class="text-button">Type a brief</button><button id="menu-export" class="text-button">Export poster · PNG</button><button id="connect-button" class="connect-button">API 设置</button><button id="lock-settings" class="text-button" hidden>锁定 API 设置</button><button id="demo-mode" class="text-button" hidden>切换到离线演示</button><button id="workbench-button" class="workbench-button" aria-expanded="false">The poster <span>V.01</span></button><button id="help-button" class="icon-button" aria-label="How to play">?</button><button id="captions-button" class="icon-button selected" aria-label="Toggle Chinese subtitles" aria-pressed="true">中</button><button id="sound-button" class="icon-button" aria-label="Mute voices" aria-pressed="false">♪</button><button id="reset-button" class="text-button">New session</button></div></details></div>
+ </header>
+ <main>
+  <section class="meeting" aria-label="The meeting room">
+   <div class="scene-wrap">
+    <div id="stage"></div>
+    <div class="scene-vignette"></div>
+    <div class="scene-header"><div><span class="eyebrow">FICTIONAL MEETING · AI CAST</span><h1>Three opinions.<br><em>Your call.</em></h1></div><div class="heat-display"><span id="heat-label">EVERYBODY'S CHILL. FOR NOW.</span><div class="heat-track"><i id="heat-fill"></i></div></div></div>
+    <div id="interjection" class="interjection" hidden><strong></strong><span></span></div>
+    <button id="wide-button" class="wide-button" hidden>Full table</button>
+    <div class="people-bar">
+     <button class="person-tag" data-person="rick"><span class="person-initial rick">R</span><span><strong>BOSS</strong><small>老板 · 监督交付</small></span><span class="approval" id="approve-rick">○</span></button>
+     <button class="person-tag" data-person="june"><span class="person-initial june">J</span><span><strong>豆包</strong><small>设计师 · 唯一改图</small></span><span class="approval" id="approve-june">○</span></button>
+     <button class="person-tag" data-person="chad"><span class="person-initial chad">C</span><span><strong>CJ</strong><small>客户 · 评审验收</small></span><span class="approval" id="approve-chad">○</span></button>
+    </div>
+    <div id="welcome" class="welcome-card"><span class="eyebrow">A DESIGN MEETING YOU CAN SURVIVE.</span><p>Your brief. Their opinions.<br>One actual finished poster.</p><button id="start-button" class="primary">Take a seat <span>▶</span></button><small>English voices on. Your headphones deserve this.</small></div>
+    <div id="scene-error" hidden><p>The character artwork could not load.</p><p>The poster editor and meeting still work. Reload to retry the scene assets.</p></div>
+   </div>
+   <div class="conversation">
+    <div class="caption-meta"><span id="speaker-name">YOUR FIRST DAY. THEIR FINAL FINAL VERSION.</span><span id="speaking-status">READY WHEN YOU ARE</span><button id="stop-live" hidden>Stop all</button><button id="skip-button" hidden>Skip line</button></div>
+    <div id="caption-en" class="caption-en" aria-live="polite">The sun sets. The revisions don't.</div>
+    <div id="caption-cn" class="caption-cn">太阳会下山，最终版不会。</div>
+    <div class="waveform" id="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+   </div>
+   <div class="director-desk">
+    <div class="desk-label"><span>YOU SET THE BRIEF.</span><span id="turn-label">MAKE YOUR CASE.</span></div>
+    <div class="choices" id="choices"><button data-action="fight" class="fight-button"><span>01</span> Let them fight</button><button data-action="bigger"><span>02</span> Back the client</button><button data-action="calm"><span>03</span> Everybody, stop.</button></div>
+    <div class="secondary-choices"><button data-action="receipt" id="receipt-button">❞ You literally said… <span id="receipt-count">0</span></button><button data-action="deadline">That takes two more days</button><button data-action="budget">That costs extra</button></div>
+    <form id="talk-form" class="talk-form"><div class="mic-orbit" aria-hidden="true"></div><button type="button" id="mic-button" aria-label="开始语音输入" aria-pressed="false"><svg class="mic-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><svg class="mic-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="3"/></svg></button><input id="talk-input" aria-label="Your design instruction" placeholder="Tell them what to create. 中文 / English…" maxlength="6000" autocomplete="off"><button type="submit" id="say-button">发送</button></form><div class="voice-prompt"><strong id="voice-title">点击麦克风说话</strong><span id="voice-hint" role="status">说完再点一下提交 · 中文 / English</span></div>
+    <div class="meeting-controls"><button type="button" id="meeting-toggle" aria-pressed="false" disabled>暂停讨论</button><span id="search-badge" class="search-badge" role="status" hidden>三角色可联网检索</span></div>
+    <details id="research-panel" class="research-panel" hidden><summary>联网资料与来源 <span id="research-count"></span></summary><ol id="research-list"></ol></details>
+   </div>
+  </section>
+  <aside class="workspace" aria-label="Poster workspace">
+   <div class="workspace-header"><div><span class="eyebrow">LIVE CANVAS</span><h2>Your poster.</h2></div><button id="close-workbench" aria-label="Close workbench">×</button><span id="revision" class="version">V.01</span></div>
+   <div class="project-line"><span id="project-status">SUNSET SOCIAL / PARTY POSTER</span><button id="edit-button">Edit brief</button></div>
+   <div id="agent-decision" class="agent-decision">豆包负责改图 · Boss 监督交付 · CJ 负责客户验收</div><div id="decision-sources" class="decision-sources" aria-label="当前结论引用的来源" hidden></div><div class="live-edit-label"><span>LIVE CANVAS · 豆包编辑</span><span id="live-editor">Waiting for the designer.</span></div>
+   <div id="client-review" class="client-review" data-status="pending" role="status">CJ · 等待客户评审</div>
+   <button id="client-review-button" class="client-review-button">请 CJ 验收当前版本</button>
+   <div id="user-authority" class="user-authority" role="status">你拥有最终决定权 · 他们可以反对，你可以拍板</div>
+   <div class="user-controls"><button id="clear-canvas-button">清空画布</button><button id="user-final-button">我来拍板 · 锁定并导出</button></div>
+   <div class="poster-holder"><canvas id="poster" width="1080" height="1350" aria-label="Live editable sunset party poster"></canvas><div id="poster-change" class="poster-change" hidden></div></div>
+   <div class="palette-bar"><span>SET THE MOOD</span><div class="swatches"><button class="swatch active" data-palette="sunset" style="--swatch:#e9834e" aria-label="Sunset orange palette"></button><button class="swatch" data-palette="ocean" style="--swatch:#4e92a3" aria-label="Ocean blue palette"></button><button class="swatch" data-palette="night" style="--swatch:#8b709b" aria-label="Night purple palette"></button><button class="swatch" data-palette="lime" style="--swatch:#a4ad75" aria-label="Palm green palette"></button></div><button id="undo-button" aria-label="Undo poster change" disabled>Undo</button></div>
+   <div class="approval-panel"><div><span class="eyebrow">CLIENT ACCEPTANCE</span><strong id="approval-count">等待 CJ 评审</strong></div><button id="lock-button">Lock the brief</button></div>
+   <button id="ship-button" class="ship-button">请 CJ 验收 <svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg></button>
+   <div class="workspace-footer"><button id="export-current">Export current · PNG ↓</button><button id="notes-button">Meeting receipts <span id="note-total">0</span></button></div>
+  </aside>
+ </main>
+ <footer class="page-footer"><span>人生乙方 <span class="divider">/</span> A WEST COAST OFFICE COMEDY</span><span id="session-footer">Three opinions. One way out.</span><button id="music-button" aria-pressed="false">♫ Studio radio · off</button></footer>
+ <dialog id="brief-dialog"><form method="dialog" id="brief-form"><div class="modal-title"><h2>The brief.</h2><button value="cancel" class="close" aria-label="Close">×</button></div><p>Something everyone can finally agree on.</p><label>Event title<input id="brief-title" maxlength="35" value="SUNSET SOCIAL" required></label><label>When<input id="brief-date" maxlength="45" value="SATURDAY / 6 PM TILL LATE" required></label><label>Where<input id="brief-location" maxlength="45" value="VENICE BEACH, LOS ANGELES" required></label><label>Brand / logo text<input id="brief-brand" maxlength="12" value="SOL" required></label><button id="save-brief" type="button" class="primary">Put it on the poster</button></form></dialog>
+ <dialog id="notes-dialog"><div class="modal-title"><h2>The receipts.</h2><button class="close" data-close="notes-dialog" aria-label="Close">×</button></div><p>The internet forgets. June doesn't.</p><div id="note-list"></div></dialog>
+ <dialog id="help-dialog"><div class="modal-title"><h2>Welcome to the meeting.</h2><button class="close" data-close="help-dialog" aria-label="Close">×</button></div><p>Make a poster. Survive the feedback. Get out before sunset.</p><ol><li>Describe your poster in Chinese or English.</li><li>Rick, June and Chad each respond to your brief and one another, with different priorities.</li><li>Hit <b>Let them fight</b> for six punchy rebuttals. Watch their edits appear on the right.</li><li>Type a new requirement at any time. <b>Stop all</b> cancels the current conversation and voice.</li><li>Call the final review, or use <b>Export current · PNG</b> whenever you want your poster.</li></ol><p class="fine-print">Live mode uses three separate role-specific model calls with shared design state and conversation memory. Live mode sends your brief and canvas to the model provider configured by the site administrator. Fish Audio supplies synthetic character voices when connected. You can use the scripted offline demo while live services are unconfigured. Microphone support depends on your browser.</p></dialog>
+ <dialog id="complete-dialog"><div class="modal-title"><span class="eyebrow">AGAINST ALL ODDS</span><button class="close" data-close="complete-dialog" aria-label="Close">×</button></div><div class="complete-stamp">APPROVED.</div><h2>Yeah. Ship it.</h2><p class="completion-copy">Three opinions. One finished poster.<br>Somehow, you're still friends.</p><div class="session-stats"><div><strong id="stat-revisions">1</strong><span>versions survived</span></div><div><strong id="stat-time">0:00</strong><span>in this meeting</span></div></div><button id="download-button" class="primary">Download poster · PNG</button><button id="keep-editing" class="text-button">Back to the studio</button></dialog>
+ <div id="toast" class="toast" role="status" hidden></div>
+ <dialog id="admin-dialog" aria-labelledby="admin-title">
+  <form id="admin-form">
+   <div class="modal-title"><h2 id="admin-title">解锁 API 设置</h2><button type="button" id="admin-close" class="close" aria-label="关闭">×</button></div>
+   <label>管理员 Key<input id="admin-key" type="password" autocomplete="current-password" required maxlength="256"></label>
+   <p id="admin-feedback" role="status"></p>
+   <button type="submit" id="admin-unlock" class="primary">解锁</button>
+  </form>
+ </dialog>
+ <dialog id="config-dialog" aria-labelledby="config-title">
+  <div class="modal-title"><h2 id="config-title">思考模型 API</h2><button id="config-close" class="close" aria-label="关闭 API 设置">×</button></div>
+  <p id="connection-status" role="status"></p>
+  <label>API Base URL<input id="api-base" type="url" value="https://api.openai.com/v1" autocomplete="off"></label>
+  <label>模型<input id="api-model" placeholder="服务商提供的模型名称" autocomplete="off"></label>
+  <label>模型 API Key<input id="api-key" type="password" autocomplete="new-password" maxlength="4096"></label>
+  <div class="config-row">
+   <label>API 格式<select id="api-style"><option value="chat">Chat Completions / compatible</option><option value="responses">OpenAI Responses</option></select></label>
+   <label>角色配音<select id="api-speech"><option value="fish" selected>Fish Audio · character voices</option><option value="browser">浏览器语音</option><option value="api">OpenAI TTS</option></select></label>
+  </div>
+  <p id="fish-voice-settings">在右上角菜单「Fish Audio · voices」中填写配音 API Key。</p>
+  <label id="api-tts-settings" hidden>OpenAI TTS 模型<input id="api-tts-model" value="gpt-4o-mini-tts" autocomplete="off"></label>
+  <label class="checkbox-label"><input type="checkbox" id="api-json" checked> 请求 JSON 模式</label>
+  <p id="config-error" role="status"></p>
+  <button id="api-save" class="primary">保存并测试</button>
+  <div class="config-footer"><button id="api-disconnect" class="text-button">清除模型 Key</button></div>
+ </dialog>
+ <dialog id="fish-dialog" aria-labelledby="fish-title">
+  <div class="modal-title"><h2 id="fish-title">Fish Audio 配音</h2><button id="fish-close" class="close" aria-label="关闭配音设置">×</button></div>
+  <label>Fish Audio API Key<input id="fish-key" type="password" autocomplete="new-password" maxlength="4096"></label>
+  <label>配音模型<select id="fish-model"><option value="s2.1-pro">S2.1 Pro · live performance</option><option value="s2.1-pro-free">S2.1 Pro Free · testing</option><option value="drama-3">Drama 3</option></select></label>
+  <div class="voice-cast">
+   <label>CJ · 西海岸<input id="fish-chad" autocomplete="off"></label><button data-voice-preview="chad">试听 CJ</button>
+   <label>Trump · 美式男声<input id="fish-rick" autocomplete="off"></label><button data-voice-preview="rick">试听 Trump</button>
+   <label>豆包 · 女声<input id="fish-june" autocomplete="off"></label><button data-voice-preview="june">试听 豆包</button>
+  </div>
+  <p id="fish-feedback" role="status"></p>
+  <button id="fish-save" class="primary">保存配音设置</button>
+  <div class="config-footer"><button id="fish-forget" class="text-button">清除 Fish Key</button><button id="fish-done" class="text-button">返回工作室</button></div>
+ </dialog>
+ <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+.app-settings-audio .sound-choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  min-block-size: 1.8rem;
+  font-size: .87rem;
+  font-weight: 730;
+}
+
+.app-settings-audio .sound-choice:has(input) { cursor: pointer; }
+.app-settings-audio input { accent-color: var(--olive, var(--ink)); }
+.app-settings-audio input[type="checkbox"] { inline-size: 1.15rem; block-size: 1.15rem; margin: 0; }
+.app-settings-audio .sound-mute { padding-block: .15rem .35rem; }
+.app-settings-audio .sound-channel { border-block-start: 1px solid var(--settings-line); padding-block: .25rem .4rem; }
+.app-settings-audio .sound-level {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.25rem;
+  align-items: center;
+  gap: .6rem;
+}
+.app-settings-audio .sound-level input { inline-size: 100%; min-block-size: 1.45rem; margin: 0; }
+.app-settings-audio .sound-level output {
+  color: var(--settings-muted);
+  font-size: .8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}

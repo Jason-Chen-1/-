@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+.studio-data/
+.studio-worker-data/
+dist/server/
+dist/client/
+dist/.openai/
+.env
+.env.*
+!.env.example
+*.tar.gz
+*.log
+qa-*.png

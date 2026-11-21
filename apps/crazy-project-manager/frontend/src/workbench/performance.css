@@ -1,0 +1,274 @@
+[data-performer].is-performing {
+  z-index: 6;
+  filter: brightness(1.13) saturate(1.1);
+}
+
+[data-performer].is-performing .cast-name {
+  background: oklch(31% 0.035 55 / 0.91);
+  color: oklch(98% 0.026 83);
+  box-shadow: inset 0 2px oklch(79% 0.13 66);
+}
+
+[data-performer="zhou"].is-performing .cast-sprite {
+  animation: zhouLeansIn 420ms cubic-bezier(.18,.88,.29,1) both,
+    zhouSpeaks 460ms 420ms steps(1) infinite;
+}
+
+[data-performer="zhou"].is-performing[data-mood="angry"] .cast-sprite {
+  animation: zhouStrikes 420ms cubic-bezier(.16,1,.3,1) both,
+    zhouSpeaks 330ms 420ms steps(1) infinite;
+}
+
+[data-performer="lin"].is-performing .cast-sprite {
+  animation: linPoints 350ms cubic-bezier(.16,1,.3,1) both,
+    linSpeaks 370ms 350ms steps(1) infinite;
+}
+
+[data-performer="lin"].is-performing .cast-sprite::after {
+  position: absolute;
+  top: 25%;
+  left: 55%;
+  width: 18%;
+  height: 16%;
+  content: "";
+  background: oklch(96% 0.06 155);
+  clip-path: polygon(50% 0, 56% 44%, 100% 50%, 56% 56%, 50% 100%, 44% 56%, 0 50%, 44% 44%);
+  pointer-events: none;
+  animation: lensGlint 470ms cubic-bezier(.16,1,.3,1) both;
+}
+
+[data-performer="tang"].is-performing .cast-sprite {
+  animation: tangCutsIn 400ms cubic-bezier(.17,.86,.25,1) both,
+    tangSpeaks 290ms 400ms steps(1) infinite;
+}
+
+@keyframes zhouLeansIn {
+  0% { transform: scale(1); background-position: 100% 0; }
+  32% { transform: translate(6px, -5px) scale(1.15) rotate(5deg); background-position: 100% 0; }
+  45% { transform: translate(9px, 2px) scale(1.13) rotate(3deg); background-position: 0 100%; }
+  100% { transform: translate(7px, 0) scale(1.12) rotate(3deg); }
+}
+
+@keyframes zhouStrikes {
+  0% { transform: scale(1) rotate(-4deg); background-position: 100% 0; }
+  25% { transform: translate(11px, -7px) scale(1.22) rotate(7deg); background-position: 0 100%; }
+  38% { transform: translate(10px, 4px) scale(1.13, 1.05) rotate(5deg); }
+  100% { transform: translate(7px, 0) scale(1.12) rotate(3deg); }
+}
+
+@keyframes zhouSpeaks {
+  0%, 68% { background-position: 0 100%; }
+  69%, 100% { background-position: 100% 0; }
+}
+
+@keyframes linPoints {
+  0% { transform: scale(1); background-position: 100% 100%; }
+  35% { transform: translate(1px, -3px) scale(1.08) rotate(-4deg); background-position: 100% 100%; }
+  46% { transform: translate(3px, -5px) scale(1.13) rotate(-2deg); background-position: 100% 0; }
+  100% { transform: translate(2px, -2px) scale(1.09) rotate(-2deg); }
+}
+
+@keyframes linSpeaks {
+  0%, 66% { background-position: 100% 0; }
+  67%, 100% { background-position: 100% 100%; }
+}
+
+@keyframes lensGlint {
+  0% { opacity: 0; transform: scale(.3) rotate(-15deg); }
+  34% { opacity: 1; transform: scale(1.32) rotate(5deg); }
+  100% { opacity: 0; transform: scale(.28) rotate(18deg); }
+}
+
+@keyframes tangCutsIn {
+  0% { transform: translateX(9px) rotate(5deg); background-position: 100% 0; }
+  30% { transform: translate(-11px, -7px) scale(1.2) rotate(-8deg); background-position: 0 100%; }
+  55% { transform: translate(-7px, -2px) scale(1.09) rotate(-4deg); }
+  100% { transform: translate(-7px, -3px) scale(1.13) rotate(-5deg); }
+}
+
+@keyframes tangSpeaks {
+  0%, 50% { background-position: 0 100%; }
+  51%, 100% { background-position: 100% 0; }
+}
+
+#agentStage .performance-tears,
+#agentStage .performance-phone,
+#agentStage .performance-impact {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#agentStage .mascot-body {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+}
+
+#agentStage[data-work="working"] .mascot-body {
+  animation: yiWorks 560ms cubic-bezier(.24,.8,.34,1) infinite;
+}
+
+#agentStage[data-work="paused"] .mascot-body {
+  animation: yiSlumps 2.7s ease-in-out infinite;
+}
+
+#agentStage[data-work="paused"] .eyes {
+  transform: scaleY(.18);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#agentStage[data-work="paused"] .performance-phone {
+  opacity: 1;
+}
+
+#agentStage.is-performing:not(.is-hit) #smile {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: yiSpeaks 330ms steps(2) infinite alternate;
+}
+
+#agentStage[data-mood="ready"]:not(.is-hit) .mascot-body,
+#agentStage.is-resuming:not(.is-hit) .mascot-body {
+  animation: yiSnapsToWork 410ms cubic-bezier(.16,1,.3,1) both;
+}
+
+#agentStage[data-mood="done"]:not(.is-hit) .mascot-body {
+  animation: yiPresents 440ms cubic-bezier(.16,1,.3,1) both;
+}
+
+#agentStage.is-hit {
+  outline: 2px solid oklch(69% 0.21 39);
+  outline-offset: -2px;
+  animation: yiImpact 320ms cubic-bezier(.17,.82,.27,1) both;
+}
+
+#agentStage.is-hit .mascot-body {
+  animation: yiRecoils 710ms cubic-bezier(.18,.78,.25,1) both;
+}
+
+#agentStage.is-hit .coffee {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: yiCoffee 490ms cubic-bezier(.16,1,.3,1) both;
+}
+
+#agentStage.is-hit :is(.eyes, #smile, .performance-phone) { opacity: 0; }
+#agentStage.is-hit .performance-tears { opacity: 1; }
+
+#agentStage .performance-impact {
+  position: absolute;
+  right: 4%;
+  top: 37%;
+  z-index: 4;
+  display: grid;
+  justify-items: end;
+  gap: 0.15em;
+  color: oklch(35% 0.16 33);
+}
+
+#agentStage.is-hit .performance-impact {
+  opacity: 1;
+  animation: impactLettering 340ms cubic-bezier(.16,1,.3,1) both;
+}
+
+.performance-impact strong {
+  display: block;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 950;
+  line-height: 1;
+  rotate: -11deg;
+  text-shadow: 0 2px oklch(96% .07 75);
+}
+
+.performance-impact b {
+  color: oklch(28% 0.08 228);
+  font-family: ui-monospace, monospace;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.push-mic {
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.push-mic[data-mic="recording"] {
+  background: oklch(91% .08 34);
+  color: oklch(40% .17 33);
+}
+
+@keyframes yiWorks {
+  0%, 100% { transform: translateX(0) rotate(0) scaleX(1); }
+  22% { transform: translateX(-2px) rotate(-2deg) scaleX(.985); }
+  55% { transform: translateX(2px) rotate(1deg) scaleX(1.01); }
+}
+
+@keyframes yiSlumps {
+  0%, 100% { transform: translate(5px, 5px) rotate(12deg) scaleY(.95); }
+  45% { transform: translate(6px, 8px) rotate(16deg) scaleY(.9); }
+}
+
+@keyframes yiSpeaks {
+  from { transform: scaleY(.8); }
+  to { transform: scaleY(1.65); }
+}
+
+@keyframes yiSnapsToWork {
+  0% { transform: translate(3px, 7px) rotate(8deg); }
+  38% { transform: translate(-2px, -9px) rotate(-9deg) scaleY(1.07); }
+  100% { transform: translate(0, -3px) rotate(-2deg); }
+}
+
+@keyframes yiPresents {
+  0% { transform: scale(.98); }
+  40% { transform: translateY(-8px) scale(1.1) rotate(-6deg); }
+  100% { transform: translateY(-4px) scale(1.06); }
+}
+
+@keyframes yiImpact {
+  0% { transform: translateX(0); }
+  12% { transform: translateX(-5px) rotate(-1deg); }
+  27% { transform: translateX(4px) rotate(1deg); }
+  40% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes yiRecoils {
+  0% { transform: scale(1.07, .87) translateY(3px); }
+  13% { transform: translate(-5px, -19px) rotate(-15deg) scale(.95, 1.12); }
+  33% { transform: translate(4px, -7px) rotate(7deg) scale(1.04, .98); }
+  55% { transform: translate(-3px, -1px) rotate(-5deg); }
+  100% { transform: translateY(1px) rotate(-2deg); }
+}
+
+@keyframes yiCoffee {
+  0% { transform: translateY(0); }
+  26% { transform: translate(13px, -13px) rotate(26deg); }
+  100% { transform: translate(3px, 0) rotate(10deg); }
+}
+
+@keyframes impactLettering {
+  0% { transform: translate(-4px, 5px) scale(.72); }
+  38% { transform: translate(2px, -3px) scale(1.16); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-performer].is-performing .cast-sprite,
+  [data-performer].is-performing .cast-sprite::after,
+  #agentStage[data-work] .mascot-body,
+  #agentStage[data-mood] .mascot-body,
+  #agentStage[data-mood="ready"]:not(.is-hit) .mascot-body,
+  #agentStage[data-mood="done"]:not(.is-hit) .mascot-body,
+  #agentStage.is-resuming:not(.is-hit) .mascot-body,
+  #agentStage.is-performing:not(.is-hit) #smile,
+  #agentStage.is-hit,
+  #agentStage.is-hit .mascot-body,
+  #agentStage.is-hit .coffee,
+  #agentStage.is-hit .performance-impact { animation: none; }
+
+  [data-performer].is-performing .cast-sprite { background-position: 100% 0; }
+  [data-performer].is-performing .cast-sprite::after { opacity: 0; }
+}

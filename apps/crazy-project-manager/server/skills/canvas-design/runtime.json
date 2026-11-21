@@ -1,0 +1,12 @@
+{
+  "name": "canvas-design",
+  "source": "https://github.com/anthropics/skills/blob/b9e19e6f44773509fbdd7001d77ff41a49a486c1/skills/canvas-design/SKILL.md",
+  "license": "Apache-2.0",
+  "attribution": "Adapted from canvas-design by Anthropic, PBC. Copyright 2026 Anthropic, PBC.",
+  "adaptation": "This runtime adaptation uses the upstream design method with the workbench's editable SVG tools and PNG previews.",
+  "instructions": [
+    "First, develop a visual direction from the brief. Find a topic-specific idea or metaphor and decide how the poster can express it through form, scale, rhythm, or color.",
+    "Then, realize that direction on the editable SVG canvas. Use run_canvas to arrange type, paint a cohesive palette, and build original artwork with paths and shapes as appropriate to the brief. Use project materials where requested and keep confirmed names and event details intact.",
+    "Inspect the latest rendered PNG. Refine margins, contrast, spacing, or any competing elements so the main idea reads at a glance and the necessary details stay legible. Deliver through the workbench's existing draft workflow."
+  ]
+}

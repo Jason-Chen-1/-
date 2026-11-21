@@ -1,0 +1,23 @@
+{
+  "reviewedOn": "2026-11-21",
+  "sources": [
+    {
+      "id": "anthropic-canvas-design",
+      "url": "https://github.com/anthropics/skills/blob/e4bb5d960d87126ff3b3a8af1a104b7db67560ba/skills/canvas-design/SKILL.md",
+      "license": "Apache-2.0",
+      "commit": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba"
+    },
+    {
+      "id": "agency-project-shepherd",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/8ae6164602c95ca78828b148b9052460ee426885/project-management/project-management-project-shepherd.md",
+      "license": "MIT",
+      "commit": "8ae6164602c95ca78828b148b9052460ee426885"
+    },
+    {
+      "id": "agency-reality-checker",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/8ae6164602c95ca78828b148b9052460ee426885/testing/testing-reality-checker.md",
+      "license": "MIT",
+      "commit": "8ae6164602c95ca78828b148b9052460ee426885"
+    }
+  ]
+}

@@ -1,0 +1,502 @@
+{
+  "intro": [
+    {
+      "id": "intro1",
+      "who": "rick",
+      "text": "Yo. Welcome to Sunset Studio. Everybody has notes. Nobody has a budget.",
+      "cn": "欢迎来到日落工作室。每个人都有意见，没有人有预算。"
+    },
+    {
+      "id": "intro2",
+      "who": "june",
+      "text": "I'm June. I protect the brand. Mostly from the people who own it.",
+      "cn": "我是 June，负责保护品牌。主要防着拥有品牌的人。"
+    },
+    {
+      "id": "intro3",
+      "who": "chad",
+      "text": "Chad. Client. Visionary. I made a mood board. It's just a picture of my car.",
+      "cn": "Chad，客户，有远见的人。我做了情绪板：就是我的车的照片。"
+    },
+    {
+      "id": "intro4",
+      "who": "rick",
+      "text": "One sunset party poster. Three opinions. Your move, designer.",
+      "cn": "一张落日派对海报，三份意见。设计师，该你了。"
+    }
+  ],
+  "review": [
+    {
+      "id": "review1",
+      "who": "rick",
+      "text": "Okay, the first draft is up. Smells like a paid invoice. I love it.",
+      "cn": "第一稿出来了。闻起来像已付款的账单，我喜欢。"
+    },
+    {
+      "id": "review2",
+      "who": "june",
+      "text": "The color works. But the date needs more space. People should know when to arrive.",
+      "cn": "配色不错。但日期需要空间，大家得知道什么时候来。",
+      "focus": "date"
+    },
+    {
+      "id": "review3",
+      "who": "chad",
+      "text": "Love the space. Can we fill it with a much bigger logo? Like, emotionally bigger.",
+      "cn": "我喜欢空间。能用更大的 Logo 填满吗？要大到直击心灵。",
+      "focus": "logo"
+    },
+    {
+      "id": "review4",
+      "who": "june",
+      "text": "It's an invitation, Chad. Not a missing logo poster.",
+      "cn": "这是邀请海报，Chad。不是寻找走失 Logo 的寻物启事。"
+    },
+    {
+      "id": "review5",
+      "who": "rick",
+      "text": "Beautiful collaboration. Designer, pick a battle.",
+      "cn": "多么美好的合作。设计师，选一场仗打吧。",
+      "action": "reviewed"
+    }
+  ],
+  "bigger": [
+    {
+      "id": "big1",
+      "who": "chad",
+      "text": "There we go. Bigger logo. Finally, somebody understands my journey.",
+      "cn": "对，大 Logo。终于有人理解我的人生了。",
+      "action": "bigger",
+      "focus": "logo"
+    },
+    {
+      "id": "big2",
+      "who": "june",
+      "text": "The logo just evicted the date.",
+      "cn": "Logo 刚刚把日期赶出去了。",
+      "focus": "date"
+    },
+    {
+      "id": "big3",
+      "who": "rick",
+      "text": "Can we charge the logo rent? It's using most of the property.",
+      "cn": "能收 Logo 房租吗？它占了大部分房产。"
+    },
+    {
+      "id": "big4",
+      "who": "chad",
+      "text": "Wait. Why is the logo so huge?",
+      "cn": "等一下。Logo 怎么这么大？",
+      "action": "receipt"
+    }
+  ],
+  "receipt": [
+    {
+      "id": "receipt1",
+      "who": "chad",
+      "text": "Okay. Yes. Technically, those are my exact words.",
+      "cn": "好吧。是的。严格来说，那确实是我的原话。"
+    },
+    {
+      "id": "receipt2",
+      "who": "june",
+      "text": "We love a documented creative process.",
+      "cn": "我们热爱有据可查的创意流程。"
+    },
+    {
+      "id": "receipt3",
+      "who": "chad",
+      "text": "Let's call it a medium big logo. I've grown as a person.",
+      "cn": "那就中等偏大的 Logo 吧。我成长了。",
+      "action": "balance"
+    },
+    {
+      "id": "receipt4",
+      "who": "rick",
+      "text": "Personal growth. No extra charge. That's the Sunset promise.",
+      "cn": "个人成长，不另收费。这就是日落工作室的承诺。"
+    }
+  ],
+  "minimal": [
+    {
+      "id": "min1",
+      "who": "june",
+      "text": "One headline. Two fonts. Enough room to actually breathe. Watch this.",
+      "cn": "一个标题，两种字体。留出真正能呼吸的空间。看好了。",
+      "action": "minimal"
+    },
+    {
+      "id": "min2",
+      "who": "chad",
+      "text": "It's clean. But could it be clean with, like, more stuff?",
+      "cn": "很干净。但能不能干净的同时，再多一点东西？"
+    },
+    {
+      "id": "min3",
+      "who": "june",
+      "text": "That's a garage, Chad.",
+      "cn": "那叫车库，Chad。"
+    },
+    {
+      "id": "min4",
+      "who": "rick",
+      "text": "Let's keep the clean version. Less stuff, less overtime.",
+      "cn": "保留干净的版本。东西少一点，加班少一点。",
+      "action": "brandApproved"
+    }
+  ],
+  "deadline": [
+    {
+      "id": "time1",
+      "who": "rick",
+      "text": "Wait. Another revision takes two days?",
+      "cn": "等等，再改一版要两天？"
+    },
+    {
+      "id": "time2",
+      "who": "june",
+      "text": "If we rebuild it around a logo the size of a swimming pool, yes.",
+      "cn": "如果要围着一个游泳池大小的 Logo 重做，那是的。"
+    },
+    {
+      "id": "time3",
+      "who": "rick",
+      "text": "Actually, this version is incredible. Possibly historic.",
+      "cn": "其实这一版太棒了。可能足以载入史册。",
+      "action": "balance"
+    },
+    {
+      "id": "time4",
+      "who": "chad",
+      "text": "You said that about the last one.",
+      "cn": "你上一版也是这么说的。"
+    },
+    {
+      "id": "time5",
+      "who": "rick",
+      "text": "I've always supported history.",
+      "cn": "我一直都支持历史。",
+      "action": "bossApproved"
+    }
+  ],
+  "color": [
+    {
+      "id": "color1",
+      "who": "june",
+      "text": "New palette. Same hierarchy. See? A change can have a reason.",
+      "cn": "新配色，保留层级。看，修改可以是有理由的。"
+    },
+    {
+      "id": "color2",
+      "who": "chad",
+      "text": "That's the exact color I was thinking of. Before you thought of it.",
+      "cn": "这就是我想的颜色。在你想到之前，我就想到了。"
+    },
+    {
+      "id": "color3",
+      "who": "rick",
+      "text": "Amazing. We'll invoice both thoughts.",
+      "cn": "太好了。两次想法都记账。"
+    }
+  ],
+  "edit": [
+    {
+      "id": "edit1",
+      "who": "june",
+      "text": "Copy updated. The details are finally doing their job.",
+      "cn": "文案更新了。信息终于开始履行职责了。"
+    },
+    {
+      "id": "edit2",
+      "who": "rick",
+      "text": "Look at us. Making actual progress. Don't tell the client.",
+      "cn": "看看我们，居然在推进。别告诉客户。"
+    },
+    {
+      "id": "edit3",
+      "who": "chad",
+      "text": "I'm literally right here.",
+      "cn": "我本人就坐在这里。"
+    }
+  ],
+  "lock": [
+    {
+      "id": "lock1",
+      "who": "june",
+      "text": "Locking the brief. One title, a readable date, and a reasonably sized logo.",
+      "cn": "锁定需求：一个标题、清楚的日期、大小合理的 Logo。",
+      "action": "lock"
+    },
+    {
+      "id": "lock2",
+      "who": "chad",
+      "text": "Define reasonably.",
+      "cn": "定义一下合理。"
+    },
+    {
+      "id": "lock3",
+      "who": "rick",
+      "text": "Whatever gets us to the beach before the sun clocks out.",
+      "cn": "能让我们在太阳下班前到海边的大小。"
+    },
+    {
+      "id": "lock4",
+      "who": "chad",
+      "text": "Fine. But I want credit for the sunset.",
+      "cn": "好吧。但落日这个创意必须算我的。",
+      "action": "allApproved"
+    }
+  ],
+  "ship": [
+    {
+      "id": "ship1",
+      "who": "june",
+      "text": "Readable. Balanced. On brand. Approved.",
+      "cn": "清楚，平衡，符合品牌。通过。",
+      "action": "brandApproved"
+    },
+    {
+      "id": "ship2",
+      "who": "chad",
+      "text": "You know what? I'd go to this party. Approved.",
+      "cn": "说实话？这个派对我愿意去。通过。",
+      "action": "clientApproved"
+    },
+    {
+      "id": "ship3",
+      "who": "rick",
+      "text": "Three approvals. One actual poster. Yeah. Ship it.",
+      "cn": "三份批准，一张真正的海报。好，交付。",
+      "action": "allApproved"
+    },
+    {
+      "id": "ship4",
+      "who": "chad",
+      "text": "Quick thing. Can we get a version without any text?",
+      "cn": "还有个小事。能来一版没有文字的吗？"
+    },
+    {
+      "id": "ship5",
+      "who": "rick",
+      "text": "Meeting's over, Chad.",
+      "cn": "会议结束了，Chad。",
+      "action": "complete"
+    }
+  ],
+  "unknown": [
+    {
+      "id": "unknown1",
+      "who": "june",
+      "text": "Give me something specific. A color, a new headline, or a bigger or smaller logo. I can work with that.",
+      "cn": "给我具体一点：颜色、新标题，或者放大缩小 Logo。这些我能处理。"
+    },
+    {
+      "id": "unknown2",
+      "who": "chad",
+      "text": "Can specific be a vibe?",
+      "cn": "具体能是一种感觉吗？"
+    },
+    {
+      "id": "unknown3",
+      "who": "june",
+      "text": "Not today.",
+      "cn": "今天不行。"
+    }
+  ],
+  "smaller": [
+    {
+      "id": "small1",
+      "who": "june",
+      "text": "A smaller logo. Now the rest of the poster can have a career.",
+      "cn": "Logo 缩小了。现在海报其他部分也能有点前途了。",
+      "action": "balance"
+    },
+    {
+      "id": "small2",
+      "who": "chad",
+      "text": "I'm choosing to see this as quiet luxury.",
+      "cn": "我决定把这个理解为静奢风。"
+    },
+    {
+      "id": "small3",
+      "who": "rick",
+      "text": "Quiet is my favorite price point.",
+      "cn": "安静是我最喜欢的价位。"
+    }
+  ],
+  "budget": [
+    {
+      "id": "budget1",
+      "who": "rick",
+      "text": "Extra revisions cost extra? Finally, a design direction I understand.",
+      "cn": "额外修改要额外收费？终于有个我听得懂的设计方向了。"
+    },
+    {
+      "id": "budget2",
+      "who": "chad",
+      "text": "Suddenly, I love everything about this version.",
+      "cn": "突然之间，我爱上了这一版的一切。",
+      "action": "clientApproved"
+    },
+    {
+      "id": "budget3",
+      "who": "june",
+      "text": "Amazing what a price tag does for creative clarity.",
+      "cn": "价格标签对创意清晰度的贡献真惊人。"
+    }
+  ],
+  "fight": [
+    {
+      "id": "fight1",
+      "who": "chad",
+      "text": "Yo, why is my logo so small? I said massive. This thing needs main character energy.",
+      "cn": "Yo，Logo 怎么这么小？我要巨大。它需要主角气场。",
+      "action": "bigger",
+      "heat": 28
+    },
+    {
+      "id": "fight2",
+      "who": "june",
+      "text": "It has main character energy. It literally pushed the date off the poster.",
+      "cn": "它很有主角气场。日期已经被它挤出海报了。",
+      "interject": {
+        "id": "aside1",
+        "at": 2.8
+      },
+      "heat": 42,
+      "action": "balance"
+    },
+    {
+      "id": "fight3",
+      "who": "rick",
+      "text": "Okay. Nobody panic. We make the logo bigger, and the poster smaller. Problem solved.",
+      "cn": "别慌。Logo 放大，海报缩小。问题解决。",
+      "heat": 49,
+      "action": "bigger"
+    },
+    {
+      "id": "fight4",
+      "who": "june",
+      "text": "Rick. That is the same problem, with a worse invoice.",
+      "cn": "Rick，这还是同一个问题，只是账单更难看了。",
+      "heat": 58,
+      "action": "minimal"
+    },
+    {
+      "id": "fight5",
+      "who": "chad",
+      "text": "Look, I want it minimal. Just add flames, palm trees, a lowrider, and my dog.",
+      "cn": "我就想要简约。加点火焰、棕榈树、低趴车，还有我的狗。",
+      "interject": {
+        "id": "aside2",
+        "at": 3.8
+      },
+      "heat": 72,
+      "action": "chaos"
+    },
+    {
+      "id": "fight6",
+      "who": "rick",
+      "text": "The dog is not in the budget. Neither is the car.",
+      "cn": "狗不在预算里。车也不在。",
+      "interject": {
+        "id": "aside3",
+        "at": 1.7
+      },
+      "heat": 81,
+      "action": "budgetCut"
+    },
+    {
+      "id": "fight7",
+      "who": "june",
+      "text": "We have a date nobody can read, and a logo with its own zip code.",
+      "cn": "日期谁都看不清，Logo 已经大到有自己的邮政编码了。",
+      "interject": {
+        "id": "aside4",
+        "at": 2.7
+      },
+      "heat": 94,
+      "action": "balance"
+    },
+    {
+      "id": "fight8",
+      "who": "chad",
+      "text": "You're making it sound like I don't know what I want.",
+      "cn": "你们说得好像我不知道自己想要什么一样。",
+      "heat": 97
+    },
+    {
+      "id": "fight9",
+      "who": "june",
+      "text": "You know exactly what you want. It just changes every eight seconds.",
+      "cn": "你很清楚你想要什么。只是每八秒就换一次。",
+      "heat": 100
+    },
+    {
+      "id": "fight10",
+      "who": "rick",
+      "text": "Designer. Please tell me you saved the receipts. I am begging you.",
+      "cn": "设计师，告诉我你保存了原话。算我求你。",
+      "action": "receipt",
+      "heat": 88
+    }
+  ],
+  "asides": [
+    {
+      "id": "aside1",
+      "who": "chad",
+      "text": "That's not what I said!",
+      "cn": "我不是这么说的！"
+    },
+    {
+      "id": "aside2",
+      "who": "june",
+      "text": "Pick a lane, Chad!",
+      "cn": "选一个方向，Chad！"
+    },
+    {
+      "id": "aside3",
+      "who": "chad",
+      "text": "He works for exposure!",
+      "cn": "它可以靠曝光量工作！"
+    },
+    {
+      "id": "aside4",
+      "who": "rick",
+      "text": "Guys. Guys!",
+      "cn": "各位，各位！"
+    }
+  ],
+  "calm": [
+    {
+      "id": "calm1",
+      "who": "rick",
+      "text": "Okay. Everybody stop. The designer has the floor.",
+      "cn": "好了，全都停下。现在设计师说了算。",
+      "heat": 25
+    },
+    {
+      "id": "calm2",
+      "who": "june",
+      "text": "One headline. A readable date. A normal logo. That is the whole brief.",
+      "cn": "一个标题，清楚的日期，正常大小的 Logo。需求就这些。",
+      "action": "balance",
+      "heat": 12
+    },
+    {
+      "id": "calm3",
+      "who": "chad",
+      "text": "Fine. But the dog gets a plus one.",
+      "cn": "行。但我的狗可以带一位朋友。",
+      "heat": 8
+    },
+    {
+      "id": "calm4",
+      "who": "rick",
+      "text": "Deal. Lock the brief before somebody adopts another dog.",
+      "cn": "成交。趁有人收养第二只狗之前，把需求锁定。",
+      "action": "lock",
+      "heat": 5
+    }
+  ]
+}

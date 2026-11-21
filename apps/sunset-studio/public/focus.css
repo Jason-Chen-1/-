@@ -1,0 +1,117 @@
+/* A face-to-face room, a microphone, and the work. Everything else is secondary. */
+.focus-layout{background:#171b18}
+.focus-layout .topbar{height:64px;background:#171b18;border:0;padding:0 30px}
+.focus-layout .wordmark{font-size:21px;letter-spacing:1.5px;color:#e8dec9}
+.focus-layout .wordmark svg{width:29px}
+.focus-layout .top-center{font-size:8px;letter-spacing:2px;color:#899b85}
+.studio-menu{position:relative;z-index:30}
+.studio-menu summary{list-style:none;cursor:pointer;letter-spacing:3px;font-size:18px;padding:9px 12px;color:#c4c5b4;border:1px solid #ffffff18;border-radius:50%}
+.studio-menu summary::-webkit-details-marker{display:none}
+.studio-menu .top-actions{position:absolute;right:0;top:48px;width:230px;display:flex;flex-direction:column;align-items:stretch;padding:12px;background:#262d26;border:1px solid #58604b;box-shadow:0 12px 40px #0007;border-radius:10px;gap:4px}
+.studio-menu:not([open]) .top-actions{display:none}
+.studio-menu .top-actions button,.studio-menu .top-actions .icon-button{display:block!important;width:100%;height:auto;min-height:35px;border:0;border-radius:5px;background:transparent;text-align:left;font-size:12px;padding:9px 12px;color:#d7d8c3;max-width:none}
+.studio-menu .top-actions button[hidden]{display:none!important}
+.studio-menu .top-actions button:hover{background:#3c4537}
+.studio-menu #connect-button{color:#e6be78}
+.studio-menu #workbench-button,.studio-menu #captions-button{display:none!important}
+.focus-layout main{grid-template-columns:minmax(0,1fr) 340px;max-width:1920px;min-height:calc(100dvh - 64px)}
+.focus-layout .meeting{display:flex;flex-direction:column;min-height:calc(100dvh - 64px);background:#171b18}
+.focus-layout .scene-wrap{height:clamp(370px,58vh,660px);max-height:none;flex:1;min-height:370px}
+.focus-layout .scene-header{top:26px;left:30px;right:30px}
+.focus-layout .scene-header h1{font:500 30px/1.05 var(--display);margin-top:12px;letter-spacing:.2px}
+.focus-layout .scene-header h1 em{color:#ecc890;font-style:normal}
+.focus-layout .scene-header .eyebrow{font-size:8px;letter-spacing:2px}
+.focus-layout .heat-display,.focus-layout .approval,.focus-layout .wide-button{display:none!important}
+.focus-layout .people-bar{left:5%;right:5%;gap:0;bottom:18px;display:grid;grid-template-columns:repeat(3,1fr)}
+.focus-layout .person-tag{justify-self:center;text-align:center;background:#1a201a7a;border:1px solid #fff2;min-width:126px;border-radius:6px;padding:9px 20px;justify-content:center;pointer-events:none}
+.focus-layout .person-tag strong{font-size:16px;letter-spacing:2px}
+.focus-layout .person-tag small{font-size:9px;color:#d8c6a3}
+.focus-layout .person-tag.speaking{border-color:#e7b36a;background:#483d2cdd}
+.focus-layout .person-tag.thinking{animation:none;border-color:#a4b69577}
+.focus-layout .person-tag.thinking small::after{content:''}
+.focus-layout .conversation{padding:21px 42px 14px;height:auto;min-height:127px;border:0;background:#171b18;text-align:center;overflow:visible}
+.focus-layout .caption-meta{justify-content:center;margin-bottom:10px}
+.focus-layout #speaker-name{font-size:9px;letter-spacing:1.9px}
+.focus-layout #speaking-status,.focus-layout #stop-live,.focus-layout #skip-button,.focus-layout .waveform{display:none!important}
+.focus-layout .caption-en{max-width:720px;margin:0 auto;font-size:19px;line-height:1.35;font-weight:400}
+.focus-layout .caption-cn{font-size:12px;color:#8c9887;margin-top:8px}
+.focus-layout .director-desk{width:100%;max-width:none;margin:0;padding:8px 25px 24px;min-height:160px;display:flex;flex-direction:column;align-items:center}
+.focus-layout #welcome,.focus-layout .desk-label,.focus-layout .choices,.focus-layout .secondary-choices,.focus-layout #mic-note{display:none!important}
+.focus-layout .talk-form{position:relative;display:flex;justify-content:center;width:84px;height:84px;border:0;background:transparent;border-radius:50%;overflow:visible;flex:none}
+.focus-layout #mic-button{width:72px;height:72px;border:0;border-radius:50%;background:#eab775;z-index:1;box-shadow:0 3px 22px #d3a46213;position:relative}
+.focus-layout #mic-button svg{width:24px;height:28px;stroke:#283024;stroke-width:1.7}
+.focus-layout #mic-button .mic-stop,.focus-layout #mic-button.listening .mic-icon{display:none}
+.focus-layout #mic-button.listening .mic-stop{display:inline-block;fill:#283024}
+.focus-layout #mic-button:disabled{cursor:wait;animation:none}
+.focus-layout .mic-orbit{position:absolute;width:84px;height:84px;left:0;top:-6px;border:1px solid #bfa16a44;border-radius:50%;pointer-events:none}
+.focus-layout #mic-button.listening{background:#d58b65;animation:mic-pulse 1.2s infinite}
+.focus-layout.is-busy .mic-orbit{border-color:#d0a56799;animation:mic-orbit 2s infinite}
+.focus-layout #talk-input,.focus-layout #say-button{display:none}
+.focus-layout .voice-prompt{text-align:center;display:flex;flex-direction:column;gap:6px;margin-top:0}
+.focus-layout .voice-prompt strong{font-size:12px;font-weight:500;letter-spacing:.2px;color:#dbd7c4}
+.focus-layout .voice-prompt span{font-size:10px;color:#788772;letter-spacing:.4px}
+.focus-layout.typing .talk-form{width:min(610px,100%);height:58px;border:1px solid #58604a;border-radius:30px;background:#222a21;margin:10px 0 16px;overflow:hidden}
+.focus-layout.typing #mic-button{width:48px;height:48px;margin-left:5px;box-shadow:none;flex:none}
+.focus-layout.typing .mic-orbit{display:none}
+.focus-layout.typing #talk-input{display:block;padding:0 14px;font-size:13px}
+.focus-layout.typing #say-button{display:block;border-radius:24px;height:44px;margin-right:6px;padding:0 17px;background:#eab775}
+.focus-layout .workspace,.focus-layout .workbench-open .workspace{position:relative;top:auto;height:auto;min-height:100%;padding:34px 27px 24px;background:#ded7c4;border:0;display:flex;justify-content:center;gap:0}
+.focus-layout .workspace-header{margin-bottom:26px}
+.focus-layout .workspace-header h2{font-size:32px;font-weight:500}
+.focus-layout .workspace-header .eyebrow{font-size:8px;letter-spacing:2px;color:#8c927d}
+.focus-layout .version{border:0;background:#cbd0b780;font-size:9px;border-radius:4px;color:#6d775f}
+.focus-layout .workspace .poster-holder{padding:0;border:0;box-shadow:0 12px 28px #47453625;background:transparent;width:100%}
+.focus-layout .workspace .poster-holder canvas{box-shadow:none}
+.focus-layout .project-line,.focus-layout .palette-bar,.focus-layout .approval-panel,.focus-layout .ship-button,.focus-layout .live-edit-label,.focus-layout .workspace-footer{display:none!important}
+.focus-layout .agent-decision{order:3;margin:22px 0 0;padding:0;border:0;background:transparent;font-size:11px;line-height:1.7;color:#7b826d;min-height:40px}
+.client-review{margin-top:12px;padding:11px 12px;border:1px solid #89957455;border-radius:6px;font-size:11px;line-height:1.65;color:#626d50;overflow-wrap:anywhere}
+.client-review[data-status="approved"]{background:#cad8b3;color:#364d2c;border-color:#738857}
+.client-review[data-status="changes_requested"]{background:#edcdaa;color:#775029;border-color:#bc8c57}
+.client-review-button{margin-top:10px;border:1px solid #90987b;border-radius:6px;padding:10px 12px;background:transparent;color:#505b41;font-size:11px;cursor:pointer}
+.client-review-button:hover{background:#cbd0b7}
+.focus-layout .client-review{order:4}
+.focus-layout .client-review-button{order:5}
+.user-authority{margin-top:12px;font-size:10px;line-height:1.6;color:#626d50}
+.user-authority[data-finalized="true"]{color:#354d29;font-weight:600}
+.user-controls{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.user-controls button{border:1px solid #858e73;border-radius:6px;background:transparent;color:#46533b;padding:10px 8px;font-size:11px;cursor:pointer}
+.user-controls #user-final-button{background:#46533b;color:#f1e7cf;border-color:#46533b}
+.focus-layout .user-authority{order:6}
+.focus-layout .user-controls{order:7}
+.meeting-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-top:12px}
+.meeting-controls .search-badge{margin:0;color:#bac7b6}
+.search-badge[data-searching="true"]{color:#f2c997}
+.focus-layout .research-panel{width:min(560px,100%);margin-bottom:0}
+.research-panel li[data-status="searching"] strong{color:#f2c997}
+.research-panel li[data-status="failed"] strong{color:#e7b99b}
+.research-panel li small{color:#aeb8a9}
+.focus-layout .decision-sources{order:3;display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.focus-layout .decision-sources[hidden]{display:none}
+.decision-sources a{font-size:11px;color:#354e37;text-underline-offset:2px;overflow-wrap:anywhere}
+#meeting-toggle{min-width:130px;padding:10px 20px;border:1px solid #b9a476;border-radius:22px;background:transparent;color:#e4d6b5;font-size:12px;cursor:pointer}
+#meeting-toggle:hover:not(:disabled){background:#eab77520}
+#meeting-toggle[aria-pressed="true"]{background:#eab775;color:#273024;border-color:#eab775}
+#meeting-toggle:disabled{opacity:.4;cursor:default}
+.focus-layout .poster-change{left:12px;right:12px;bottom:12px;font-size:10px;border-radius:4px}
+.focus-layout .page-footer{display:none}
+.focus-layout .toast{font-size:12px;bottom:20px;border-radius:8px}
+@keyframes mic-pulse{50%{box-shadow:0 0 0 10px #d58b651a}}
+@keyframes mic-orbit{50%{transform:scale(1.08);opacity:.5}}
+@media(min-width:1600px){.focus-layout main{grid-template-columns:minmax(0,1fr) 390px}.focus-layout .workspace{padding:40px 32px}.focus-layout .scene-wrap{max-height:none}.focus-layout .caption-en{font-size:22px}}
+@media(max-width:1000px) and (min-width:701px){.focus-layout main{grid-template-columns:minmax(0,1fr) 285px}.focus-layout .workspace{padding:28px 22px}.focus-layout .scene-wrap{min-height:340px}.focus-layout .person-tag{min-width:90px;padding:8px 12px}.focus-layout .conversation{padding:20px 26px 8px}.focus-layout .caption-en{font-size:17px}}
+@media(max-width:700px){.focus-layout .topbar{height:57px;padding:0 18px}.focus-layout .wordmark{font-size:19px}.focus-layout .wordmark svg{width:24px}.focus-layout main{display:block}.focus-layout .meeting{min-height:calc(100dvh - 57px)}.focus-layout .scene-wrap{min-height:270px;height:45vh;max-height:none}.focus-layout .scene-header{left:20px;top:20px}.focus-layout .scene-header h1{font-size:25px}.focus-layout .scene-header .eyebrow{font-size:7px}.focus-layout .person-tag{min-width:0;width:90px;padding:8px 6px}.focus-layout .person-tag strong{font-size:14px}.focus-layout .person-tag small{font-size:8px}.focus-layout .people-bar{bottom:12px}.focus-layout .conversation{padding:20px 24px 10px;min-height:132px}.focus-layout .caption-en{font-size:17px}.focus-layout .caption-cn{font-size:11px}.focus-layout .director-desk{min-height:150px;padding-bottom:23px}.focus-layout .workspace{display:flex;min-height:0;padding:30px 28px 35px}.focus-layout .workspace .poster-holder{max-width:410px;margin:auto}.focus-layout .workspace-header,.focus-layout .agent-decision{width:100%;max-width:410px;margin-left:auto;margin-right:auto}.focus-layout .workspace-header{margin-bottom:22px}.focus-layout .agent-decision{margin-top:20px}}
+
+/* Keep the presentation control visible, including in the compact layout. */
+.focus-layout .header-controls{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.focus-layout #fullscreen-button{display:grid!important;place-items:center;width:38px;height:38px;padding:9px;border:1px solid #ffffff25;border-radius:50%;background:transparent;color:#e8dec9}
+.focus-layout #fullscreen-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.focus-layout #fullscreen-button:hover,.focus-layout #fullscreen-button[aria-pressed="true"]{background:#eab775;color:#242b23;border-color:#eab775}
+.focus-layout #fullscreen-button:focus-visible{outline:2px solid #eab775;outline-offset:4px}
+:fullscreen .focus-layout main,:-webkit-full-screen .focus-layout main{max-width:none}
+@media(min-width:701px){
+ .studio-fullscreen main{height:calc(100dvh - 64px);min-height:0}
+ .studio-fullscreen .meeting{height:100%;min-height:0}
+ .studio-fullscreen .scene-wrap{height:auto;min-height:220px}
+ .studio-fullscreen .workspace .poster-holder{max-width:min(100%,calc((100dvh - 250px)*.8))}
+}
+@media(max-width:380px){.focus-layout .header-controls{gap:6px}.focus-layout .wordmark{font-size:17px;gap:6px}.focus-layout .topbar{padding:0 12px}}

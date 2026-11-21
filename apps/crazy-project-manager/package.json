@@ -1,0 +1,42 @@
+{
+  "name": "crazy-project-manager",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "prestart": "npm run build:ui",
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "start:worker": "node --env-file-if-exists=.env scripts/start-worker.mjs",
+    "dev:ui": "vite",
+    "canvas": "node scripts/canvas.mjs",
+    "build": "npm run build:worker",
+    "build:ui": "vite build",
+    "build:worker": "node scripts/build-worker.mjs",
+    "test:worker": "node scripts/smoke-worker.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@earendil-works/pi-agent-core": "1.6.0",
+    "@earendil-works/pi-ai": "1.6.0",
+    "@msgpack/msgpack": "^3.1.2",
+    "@resvg/resvg-js": "^2.6.2",
+    "@resvg/resvg-wasm": "^2.6.2",
+    "@svgdotjs/svg.js": "3.2.8",
+    "@xmldom/xmldom": "0.9.12",
+    "jsqr": "^1.4.0",
+    "qrcode-generator": "^1.4.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "svgpath": "2.6.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "esbuild": "^0.28.2",
+    "miniflare": "^4.20260730.0",
+    "vite": "^8.3.8"
+  }
+}

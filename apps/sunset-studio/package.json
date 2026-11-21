@@ -1,0 +1,26 @@
+{
+  "name": "sunset-studio-public",
+  "version": "1.0.0",
+  "description": "Three live AI characters argue over your brief and build an exportable poster in a West Coast illustrated studio.",
+  "scripts": {
+    "skills:build": "node scripts/build-skills.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "dev": "node server.mjs",
+    "build": "node scripts/build-site.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "dependencies": {
+    "undici": "7.30.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "private": true
+}

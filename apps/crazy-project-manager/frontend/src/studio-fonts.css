@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "SDK US Web";
+  src: url("/assets/fonts/en-us.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:where(h1, h2, h3, h4, h5, h6, .project-name, #projectName, .services-grid legend) {
+  font-family: "SDK US Web", var(--studio-system-font);
+  font-synthesis-weight: none;
+}
+
+:where(.log-entry h3, .services-grid legend span) {
+  font-family: var(--studio-system-font);
+  font-synthesis-weight: auto;
+}
