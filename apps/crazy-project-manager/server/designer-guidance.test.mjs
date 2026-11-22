@@ -20,6 +20,9 @@ const late = { id: 'guide-2', kind: 'voice', text: 'Add slightly more space befo
 const firstProgress = 'I’m checking the title against the layout.';
 const secondProgress = 'I’m making the last spacing adjustment.';
 const delivered = 'The heading now has more breathing room.';
+const invalidCanvasArguments = {
+  commands: JSON.stringify([{ op: 'paint', id: 'palette', style: { fill: '#07110F' } }]),
+};
 
 function draftInput(options = {}) {
   return { scene: createInitialPoster(project), text, project, language: 'en', versionId: 'V01', ...options };
@@ -282,4 +285,52 @@ test('late guidance restores editing tools after the read-only delivery turn', a
   assert.equal(result.patches.at(-1).set.x, 150);
   assert.equal(result.reply, delivered);
   assert.deepEqual(result.memory.guidance, [late]);
+});
+
+test('the first draft can recover from a canvas error on the third retry after the normal turn limit', async t => {
+  const requests = [];
+  t.mock.method(globalThis, 'fetch', async (_url, options) => {
+    const request = JSON.parse(options.body);
+    const turn = requests.push(request);
+    if (turn === 1) return response(null, move('start-title', 100));
+    if (turn <= 6) return response(null, tool(`inspect-${turn}`, 'inspect_poster', {}));
+    if (turn === 7 || turn === 8) return response(null, tool(`bad-canvas-${turn}`, 'run_canvas', invalidCanvasArguments));
+    if (turn === 9) return response('I will check those parameters.');
+    if (turn === 10) return response(null, move('repair-title', 140));
+    assert.equal(turn, 11);
+    assert.equal(request.tools, undefined, 'the repaired poster must be reviewed before delivery');
+    return response(delivered);
+  });
+
+  const result = await designer()(draftInput({ initial: true }), { validateDraft: preview });
+  assert.equal(requests.length, 11);
+  for (const [index, callId] of [[7, 'bad-canvas-7'], [8, 'bad-canvas-8'], [9, 'bad-canvas-8']]) {
+    const request = requests[index];
+    const feedback = request.messages.find(message => message.role === 'tool' && message.tool_call_id === callId);
+    assert.match(messageText(feedback), /commands\.0: expected object, got string/);
+    assert.ok(request.tools.some(item => item.function.name === 'run_canvas'));
+    assert.ok(messageIndex(request.messages, 'Pass commands as a JSON array of objects') >= 0);
+  }
+  assert.equal(result.patches.at(-1).set.x, 140);
+  assert.equal(result.reply, delivered);
+});
+
+test('the first draft stops after three failed canvas retries and relays errors in JSON mode', async t => {
+  const requests = [];
+  t.mock.method(globalThis, 'fetch', async (_url, options) => {
+    const turn = requests.push(JSON.parse(options.body));
+    return response(JSON.stringify({ tools: [{ id: `bad-canvas-${turn}`, name: 'run_canvas', arguments: invalidCanvasArguments }] }));
+  });
+
+  await assert.rejects(designer()(draftInput({ initial: true }), { validateDraft: preview }),
+    /commands\.0: expected object, got string/);
+  assert.equal(requests.length, 4, 'one initial call and three retries');
+  for (const [index, request] of requests.slice(1).entries()) {
+    const feedback = request.messages.findLast(message => message.role === 'user' && messageText(message).startsWith('{"toolResults":'));
+    const [result] = JSON.parse(messageText(feedback)).toolResults;
+    assert.equal(result.id, `bad-canvas-${index + 1}`);
+    assert.equal(result.name, 'run_canvas');
+    assert.equal(result.isError, true);
+    assert.match(result.text, /commands\.0: expected object, got string/);
+  }
 });

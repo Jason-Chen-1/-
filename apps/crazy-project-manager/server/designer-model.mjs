@@ -149,9 +149,12 @@ export function prepareCanvasEdits(scene, calls) {
 
 const drawingTools = new Set(['run_canvas', 'place_material']);
 const maxDesignerEditTurns = 7;
-const maxDesignerTurns = maxDesignerEditTurns + 2;
+const maxDesignerDeliveryTurns = 2;
+const maxDesignerTurns = maxDesignerEditTurns + maxDesignerDeliveryTurns;
 const maxGuidedDesignerTurns = maxDesignerTurns + 4;
 const maxDesignerPatches = 30;
+const maxFirstDraftCanvasRetries = 3;
+const canvasRepairNote = 'Read the run_canvas error in the tool feedback and correct the failed edit using the attached last good PNG. Use exactly one tool call with one small edit now. Pass commands as a JSON array of objects.';
 const deliveryNote = 'Editing is complete. Review the attached final poster PNG and deliver it in one short plain-text sentence in the requested language.';
 const speechRepairNote = 'The rendered poster is ready. Look at the attached PNG and say one natural sentence about the result in the requested language. Return only your spoken words.';
 
@@ -258,6 +261,8 @@ export function createDesignerModel(config) {
     onTrace?.(toolResult('load_skill', { name: canvasDesign.name, source: canvasDesign.source }, { loaded: true }, Date.now()));
     let shownRevision = 0;
     let toolError;
+    let firstDraftCanvasError;
+    let canvasRetries = 0;
     let imageError;
     let submission;
     let repairSpeech = false;
@@ -345,7 +350,7 @@ export function createDesignerModel(config) {
       }
       if (name === 'submit_draft') {
         if (imageError) throw imageError;
-        if (!patches.length || toolError || shownRevision !== work.revision) {
+        if (!patches.length || toolError || firstDraftCanvasError || shownRevision !== work.revision) {
           throw new Error('Render an edit, repair any tool errors and review the updated PNG before delivering it.');
         }
         const reply = finalSpeech(args.speech);
@@ -394,6 +399,10 @@ export function createDesignerModel(config) {
       const call = calls.get(event.toolCallId);
       const cutOff = event.isError && stopReason === 'length';
       const output = event.isError ? { error: textContent(event.result.content), ...(cutOff ? { executed: false } : {}) } : event.result.details;
+      if (initial && event.toolName === 'run_canvas') {
+        firstDraftCanvasError = event.isError ? output.error : undefined;
+        if (firstDraftCanvasError) submission = undefined;
+      }
       if (!cutOff && drawingTools.has(event.toolName)) toolError = event.isError ? output.error : undefined;
       onTrace?.(toolResult(event.toolName, { callId: event.toolCallId, arguments: call?.arguments },
         output, call?.startedAt ?? Date.now(), cutOff ? 'not_executed' : event.isError ? 'error' : 'ok'));
@@ -413,10 +422,11 @@ export function createDesignerModel(config) {
       prepareNextTurn({ message, context: current }) {
         let nextContext;
         let note;
-        if (restoreTools) {
+        if (restoreTools || firstDraftCanvasError) {
           restoreTools = false;
           repairSpeech = false;
           if (current.tools !== tools) nextContext = { ...current, tools };
+          if (firstDraftCanvasError) note = canvasRepairNote;
         } else if (repairSpeech || (turns >= editTurnLimit && patches.length && !toolError && !imageError && current.tools?.length)) {
           note = repairSpeech ? speechRepairNote : deliveryNote;
           repairSpeech = false;
@@ -432,6 +442,13 @@ export function createDesignerModel(config) {
       async finishTurn({ message }) {
         turns += 1;
         if (message.stopReason === 'error' || message.stopReason === 'aborted') return;
+        if (firstDraftCanvasError) {
+          if (jobSignal.aborted || canvasRetries >= maxFirstDraftCanvasRetries) return { action: 'end' };
+          canvasRetries += 1;
+          editTurnLimit = Math.max(editTurnLimit, turns + 1);
+          turnLimit = Math.max(turnLimit, editTurnLimit + maxDesignerDeliveryTurns);
+          return { action: 'continue' };
+        }
         const finished = submission || (message.stopReason === 'stop' && patches.length && !toolError && !imageError && finalSpeech(textContent(message.content)));
         if (finished || turns >= turnLimit) {
           const guidance = await readGuidance();
@@ -449,7 +466,7 @@ export function createDesignerModel(config) {
         }
       },
       getFollowUpMessages() {
-        if (nudged || submission || imageError || (patches.length && !toolError)) return [];
+        if (firstDraftCanvasError || nudged || submission || imageError || (patches.length && !toolError)) return [];
         nudged = true;
         return [{ role: 'user', content: toolError || 'Use run_canvas to produce a visible edit before delivering the draft.', timestamp: Date.now() }];
       }
@@ -457,6 +474,7 @@ export function createDesignerModel(config) {
     jobSignal.throwIfAborted();
     const failure = getFailure?.();
     if (failure) throw failure;
+    if (firstDraftCanvasError) throw new Error(firstDraftCanvasError);
     if (imageError) throw imageError;
     if (guidanceFailed) throw new Error('The latest design guidance could not be loaded.');
     const final = messages.findLast(message => message.role === 'assistant');
