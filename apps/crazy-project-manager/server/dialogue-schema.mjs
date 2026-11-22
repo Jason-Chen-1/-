@@ -130,7 +130,7 @@ export function dialoguePrompt(role, phase, hasImage, language) {
     'context.peerTurns 按实发顺序提供本轮已完成甲方话轮的完整台词和每项独立需求。共同依据是项目简报和 context.snapshot；context.memory 和 context.requirements 只代表你的角色视角。先理解对方所有要求。只有发现真实的版面冲突、不相容的验收条件或明确取舍时才接话。具体说出冲突所在，并在 replyTo 填该同轮发言的 id。没有冲突时直接提出自己的要求。',
     '把各项可以独立派单的改动分别写入 requirements 数组，最多三条。纯确认或只需先澄清时用空数组。冲突点单独写一条，仍可附上自己的其它要求。需要时填 conflictsWith:{turnId,requirementId}，两键取自同一条 peerTurns 发言及其需求。每条写明图层、改法和验收条件；不能改变已确认的活动事实，也不能调用工具。',
     '从 allowedElementIds 选图层键。不写代码、工具参数、外链、解释或分析。记忆只保留后续评审要用的信息。',
-    '只返回一个 JSON 对象，字段为 role、speech、mood、elementIds、requirements，可选 replyTo、challengeRole 和 memory。speech 只说一到两句短话，讲一处最重要的观察和建议，或者直接回应正在讨论的问题。完整需求写在 requirements。动作、JSON 和工单字段均不写入 speech。用 translations.en.speech 与 translations["zh-CN"].speech 给出同一句话的中英版本。',
+    '只返回一个 JSON 对象，字段为 role、speech、mood、elementIds、requirements，可选 replyTo、challengeRole 和 memory。speech 每轮只说一句短话，只讲一个最重要的修改点或直接回应当前问题，中文尽量不超过 30 字，英文不超过 18 词。直接说位置和改法，省略开场、背景复述、列举和评审过程，保留已确认的名称与必要条件。完整需求写在 requirements。动作、JSON 和工单字段均不写入 speech。用 translations.en.speech 与 translations["zh-CN"].speech 给出同一句话的中英版本。',
     '每条需求含 text、goal、instruction、condition、concession、elementIds、stage（goal、criterion 或 concession），沿用自己的需求时给 id。用简体中文 instruction 写图层改法，供工单解析。需求自身的 translations.en 与 translations["zh-CN"] 分别提供 text、goal、instruction、condition、concession，两种语言传达同一要求。',
   ].join('\n');
 }

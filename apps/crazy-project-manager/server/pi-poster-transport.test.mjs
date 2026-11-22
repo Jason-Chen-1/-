@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { runAgentLoop } from '@earendil-works/pi-agent-core';
+import { canvasProgramTool, runCanvasProgram } from './canvas-program.mjs';
 import { configureChatProvider } from './chat-provider.mjs';
+import { createInitialPoster } from './initial-poster.mjs';
 import { createPosterPiTransport } from './pi-poster-transport.mjs';
+import { projectTheme } from './project-theme.mjs';
 
 const edit = {
   name: 'edit_poster', label: 'Edit poster', description: 'Edit one poster layer.',
@@ -133,4 +136,84 @@ test('the JSON compatibility transport supplies the model’s tool progress as P
   assert.deepEqual(order, ['I am adjusting the contrast.', 'tool']);
   assert.equal(requests.length, 3);
   assertProviderBudget(model, requests);
+});
+
+for (const protocol of ['native', 'json']) {
+  test(`${protocol} canvas calls decode serialized containers before Pi validates and executes them`, async t => {
+    const requests = [];
+    const applied = [];
+    const title = '{"text":"Keep this exact poster copy"}';
+    const commands = [
+      { op: 'paint', id: 'palette', style: JSON.stringify({ fill: '#07110F' }), gradient: null },
+      { op: 'text', layers: JSON.stringify([{ id: 'title', text: title }]) },
+    ];
+    const args = { commands: commands.map(command => JSON.stringify(command)) };
+    const encoded = protocol === 'native' ? args : { commands: JSON.stringify(args.commands) };
+    t.mock.method(globalThis, 'fetch', async (_url, request) => {
+      const body = JSON.parse(request.body);
+      requests.push(body);
+      if (protocol === 'json' && requests.length === 1) {
+        return Response.json({ error: { message: 'Native tools are unavailable' } }, { status: 400 });
+      }
+      if (!body.messages.some(message => message.role === 'tool' ||
+          (message.role === 'user' && typeof message.content === 'string' && message.content.includes('toolResults')))) {
+        const call = { id: 'serialized-canvas', type: 'function',
+          function: { name: 'run_canvas', arguments: JSON.stringify(encoded) } };
+        return protocol === 'native' ? response('tool_calls', null, [call])
+          : response('stop', JSON.stringify({ tools: [{ id: call.id, name: 'run_canvas', arguments: JSON.stringify(encoded) }] }));
+      }
+      return response('stop', 'The poster is ready.');
+    });
+    let scene = createInitialPoster(projectTheme(undefined, { topic: 'CrosspointX' }));
+    const { model, streamFn, getFailure } = transport();
+    const history = await runAgentLoop([assignment], { messages: [instruction], tools: [{
+      ...canvasProgramTool.function, label: 'Canvas',
+      async execute(id, parameters) {
+        applied.push({ id, parameters });
+        scene = runCanvasProgram(scene, parameters).scene;
+        return { content: [{ type: 'text', text: 'Rendered.' }], details: {} };
+      },
+    }] }, { model, convertToLlm: messages => messages, toolExecution: 'sequential' }, () => {}, undefined, streamFn);
+    assert.deepEqual(applied, [{ id: 'serialized-canvas', parameters: { commands: [
+      { op: 'paint', id: 'palette', style: { fill: '#07110F' }, gradient: null },
+      { op: 'text', layers: [{ id: 'title', text: title }] },
+    ] } }]);
+    assert.equal(scene.elements.find(layer => layer.id === 'palette').style.fill, '#07110f');
+    assert.equal(scene.elements.find(layer => layer.id === 'title').text, title);
+    assert.ok(history.some(message => message.role === 'toolResult' && message.toolCallId === 'serialized-canvas' && !message.isError));
+    assert.equal(requests.length, protocol === 'native' ? 2 : 3);
+    assert.equal(getFailure(), undefined);
+  });
+}
+
+test('malformed canvas strings and invalid decoded values remain rejected and repairable', async t => {
+  const requests = [];
+  const applied = [];
+  const badCommands = ['{"op":"paint"', JSON.stringify({ op: 'unsupported-operation' }), JSON.stringify([])];
+  t.mock.method(globalThis, 'fetch', async (_url, request) => {
+    const body = JSON.parse(request.body);
+    requests.push(body);
+    const index = requests.length - 1;
+    if (index <= badCommands.length) return response('tool_calls', null, [{
+      id: `canvas-${index}`, type: 'function', function: { name: 'run_canvas', arguments: JSON.stringify({
+        commands: index < badCommands.length ? [badCommands[index]] : [{ op: 'paint', id: 'palette', style: { fill: '#07110F' } }],
+      }) },
+    }]);
+    return response('stop', 'The corrected poster is ready.');
+  });
+  const { model, streamFn, getFailure } = transport();
+  const history = await runAgentLoop([assignment], { messages: [instruction], tools: [{
+    ...canvasProgramTool.function, label: 'Canvas',
+    async execute(id, args) {
+      applied.push({ id, args });
+      return { content: [{ type: 'text', text: 'Rendered.' }], details: {} };
+    },
+  }] }, { model, convertToLlm: messages => messages, toolExecution: 'sequential' }, () => {}, undefined, streamFn);
+  assert.deepEqual(applied.map(call => call.id), ['canvas-3']);
+  assert.deepEqual(history.filter(message => message.role === 'toolResult').map(message => [message.toolCallId, message.isError]),
+    [['canvas-0', true], ['canvas-1', true], ['canvas-2', true], ['canvas-3', false]]);
+  for (let index = 0; index < badCommands.length; index++) {
+    assert.ok(requests[index + 1].messages.some(message => message.role === 'tool' && message.tool_call_id === `canvas-${index}`));
+  }
+  assert.equal(getFailure(), undefined);
 });

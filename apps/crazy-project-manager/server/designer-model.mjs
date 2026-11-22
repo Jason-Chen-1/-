@@ -70,15 +70,16 @@ const instructions = [
   `Apply the installed ${canvasDesign.name} skill to this poster.`,
   ...canvasDesign.instructions,
   'The request includes the latest rendered PNG, layer IDs and project facts. Preserve confirmed facts. Build the first draft in small batches: set color and type, then add simple artwork if the brief calls for it.',
+  'Tool arguments must match their JSON schemas. In run_canvas, commands is an array of objects, not JSON strings. Keep nested layers, operations, parts, style and gradient as JSON arrays or objects too.',
   'New posters start on portrait A3 (297 × 420 mm), and the poster snapshot gives the current dimensions. Keep the current paper unless the brief or the manager calls for another size. Use run_canvas with {"commands":[{"op":"resize","preset":"A4"}]} for A4, A3 or A2, or give widthMm and heightMm within the allowed portrait range. Existing artwork is repositioned and scaled. After resizing, use the updated width and height for further edits.',
   'Use a fresh layer ID such as cat-art for new art. Put vector parts inside draw.layer.parts: {"commands":[{"op":"draw","layer":{"id":"cat-art","x":50,"y":220,"w":500,"h":440,"parts":[{"id":"head","shape":"ellipse","x":80,"y":60,"w":320,"h":260,"style":{"fill":"#111111"}}]}}]}. Path parts use d in place of x, y, w, h.',
   `Select individual text layers with style.fontFamily. Available choices are ${posterFontChoices}. Keep poster copy editable so the next round can revise it.`,
   'Example for an existing title: {"commands":[{"op":"arrange","operations":[{"op":"set","id":"title","set":{"x":40,"y":80,"style":{"fontFamily":"sans","fontWeight":900}}}]}]}.',
   'Use place_material for bitmaps from the project library. For a full-bleed image, set fit to cover and use run_canvas to reorder the image below lettering. Set style.blendMode or style.opacity to blend with lower layers. Use inspect_poster to read exact layers. If an edit fails, use the error and the last good PNG to fix the issue.',
   'Earlier task and reply messages are completed work by Xiao Yi in this project. Follow the current assignment and any new design guidance from the manager. Only act on client requirements explicitly forwarded in the assignment.',
-  'Call preview_draft when you want to visually recheck the current work. After seeing the edited PNG, deliver one short spoken sentence in the requested language. You may use submit_draft with a speech field. If using JSON tool commands, send {"tools":[{"name":"run_canvas","arguments":{"commands":[...]}}]}.'
+  'Call preview_draft when you want to visually recheck the current work. After seeing the edited PNG, deliver one short spoken sentence in the requested language naming the main result, with at most 30 Chinese characters or 18 English words. Skip introductions, a list of edits, background, and explanations of your process. You may use submit_draft with a speech field. If using JSON tool commands, send {"tools":[{"name":"run_canvas","arguments":{"commands":[...]}}]}.'
 ].join('\n');
-const progressInstructions = 'On a tool turn, include one brief natural sentence in the requested language about what you are working on or checking now. Put it in the assistant text next to the tool calls, or in progress for the JSON tool protocol. It is heard before the tool runs. Do not narrate code, internal reasoning, or claim delivery. Reserve the final spoken line for submitting the reviewed draft.';
+const progressInstructions = 'On the first tool turn only, say one short sentence in the requested language about your next action, at most 20 Chinese characters or 12 English words. Put it in the assistant text next to the tool calls, or in progress for the JSON tool protocol. Continue later tool turns silently. Do not narrate code, internal reasoning, or claim delivery. Reserve one final short spoken sentence for submitting the reviewed draft.';
 const imageInstructions = [
   'Use generate_image when the assignment calls for raster artwork. Use mode:generate to make a new image. Use mode:edit and one to three references to revise supplied imagery. A reference can be a project material, a bitmap layer, or the rendered poster. Prefer the relevant bitmap for local edits so the surrounding layers stay editable.',
   'When the context lists an existing Qwen image task for the same artwork, call generate_image with just its id to resume or reuse it. Keep the id stable to avoid submitting duplicate paid tasks. A previous-model entry can no longer be resumed in the current tool.',
@@ -152,8 +153,8 @@ const maxDesignerEditTurns = 7;
 const maxDesignerTurns = maxDesignerEditTurns + 2;
 const maxGuidedDesignerTurns = maxDesignerTurns + 4;
 const maxDesignerPatches = 30;
-const deliveryNote = 'Editing is complete. Review the attached final poster PNG and deliver it in one short plain-text sentence in the requested language.';
-const speechRepairNote = 'The rendered poster is ready. Look at the attached PNG and say one natural sentence about the result in the requested language. Return only your spoken words.';
+const deliveryNote = 'Editing is complete. Review the attached final poster PNG and deliver it in one short plain-text sentence in the requested language naming the main result, at most 30 Chinese characters or 18 English words.';
+const speechRepairNote = 'The rendered poster is ready. Look at the attached PNG and say one short sentence in the requested language naming the main result, at most 30 Chinese characters or 18 English words. Return only your spoken words.';
 
 function textContent(content) {
   if (typeof content === 'string') return content.trim();
@@ -316,7 +317,7 @@ export function createDesignerModel(config) {
     }
 
     async function beforeToolCall({ assistantMessage }) {
-      if (!onSpeech || narratedTurns.has(assistantMessage)) return;
+      if (!onSpeech || speechIndex >= 1 || narratedTurns.has(assistantMessage)) return;
       narratedTurns.add(assistantMessage);
       if (assistantMessage.content.some(part => part.type === 'toolCall' && part.name === 'submit_draft')) return;
       const text = progressLine(textContent(assistantMessage.content));

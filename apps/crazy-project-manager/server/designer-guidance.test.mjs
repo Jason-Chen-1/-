@@ -120,7 +120,7 @@ test('Pi keeps Xiao Yi’s own history and inserts signed-off guidance after com
   assert.equal(requests[2].messages.filter(message => messageText(message).includes(early.text)).length, 1);
   const afterCandidate = requests[3].messages;
   assert.equal(messageIndex(afterCandidate, late.text), afterCandidate.findIndex(message => message.tool_call_id === 'submit-first') + 1);
-  assert.deepEqual(spoken, [{ index: 0, text: firstProgress }, { index: 1, text: secondProgress }]);
+  assert.deepEqual(spoken, [{ index: 0, text: firstProgress }], 'each assignment narrates progress once, including when later guidance arrives');
   assert.equal(result.reply, delivered);
   assert.deepEqual(result.memory.guidance, [early, late]);
   assert.match(result.memory.instruction, /Keep the venue legible/);

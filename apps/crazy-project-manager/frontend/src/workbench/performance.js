@@ -14,7 +14,7 @@ const effectUrls = {
 };
 const svgNS = 'http://www.w3.org/2000/svg';
 const listeningWindow = 750;
-const clientVoiceSpeedMultiplier = 1.17;
+const voiceSpeedMultiplier = 1.3;
 const speechTextLimit = 180;
 const onlineSpeechWait = 17_000;
 const clientCueLoadWait = 160;
@@ -375,8 +375,7 @@ export function createPerformance({
     const delivery = asset.provider === 'openrouter' ? heygenDelivery[data.role] : null;
     const characterRate = delivery && Object.hasOwn(delivery, data.mood)
       ? delivery[data.mood] : delivery?.normal ?? 1;
-    const playbackRate = kind === 'voice'
-      ? characterRate * (data.role === 'yi' ? 1 : clientVoiceSpeedMultiplier) : 1;
+    const playbackRate = kind === 'voice' ? characterRate * voiceSpeedMultiplier : 1;
     source.playbackRate.value = playbackRate;
     source.connect(kind === 'effect' ? effectsGain : gain);
     const startedAt = context.currentTime;

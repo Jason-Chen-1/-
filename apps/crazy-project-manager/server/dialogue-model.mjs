@@ -38,7 +38,7 @@ function meetingPrompt(role, language) {
       'If the shared completion includes managerFeedback, those are returned remarks from the previous version. Use the manager’s note when it helps review the current poster.',
       'Speak only when you have a new actionable change or a genuine objection with a concrete reason. Ground it in the poster or project facts. You can address the manager or an earlier speaker. Skip acknowledgments, repetitions, recaps, and closing remarks.',
       'When you genuinely dispute an earlier client’s suggestion and need their response, open by addressing them as “Zhou,”, “Lin,”, or “Tang,” and give the concrete reason. Other remarks begin directly with your point.',
-      `If you have nothing to add, return exactly ${meetingPassMarker} by itself. Otherwise speak in one or two short sentences of plain spoken text. No speaker labels, directions, markup, JSON, or tool calls.`,
+      `If you have nothing to add, return exactly ${meetingPassMarker} by itself. Otherwise give only the single most important change or objection in one short sentence, at most 18 words. Skip introductions, repeated context, lists, and explanations of your review process. Keep confirmed names and essential conditions intact. Use plain spoken text with no speaker labels, directions, markup, JSON, or tool calls.`,
     ].join('\n');
   }
   return [
@@ -47,7 +47,7 @@ function meetingPrompt(role, language) {
     '如交稿通知带有 managerFeedback，那是经理对上一版意见的退回记录。结合经理的备注评审当前海报。',
     '只有提出新的可执行改法，或有具体理由反驳前面一条意见时才说话。用海报或项目事实给出依据，可以直接回应经理或前一位发言者。省略附和、复述、总结和告别。',
     '只有确实反驳某位已经发言的甲方，而且需要对方回应时，才以「周总，」「林尺，」或「阿唐，」开头，并说出具体理由。其他发言直接说重点。',
-    `没有新意见时只返回 ${meetingPassMarker}。发言时只说一到两句短话，输出自然纯文本，省略角色标签、动作、格式标记、JSON 和工具指令。`,
+    `没有新意见时只返回 ${meetingPassMarker}。每轮只说一句短话，只提一个最重要的改动或反对理由，尽量控制在 30 字以内。直接说位置和改法，省略开场、背景复述、列举和评审过程；保留已确认的名称及必要条件。输出自然纯文本，省略角色标签、动作、格式标记、JSON 和工具指令。`,
   ].join('\n');
 }
 

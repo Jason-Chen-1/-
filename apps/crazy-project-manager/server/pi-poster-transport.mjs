@@ -130,13 +130,36 @@ function requestMessages(transcript, tools, native, preview) {
   return messages;
 }
 
-function piCall({ id, name, args }, redact) {
+// Some compatible providers JSON-encode nested containers as strings. Decode only
+// schema-declared containers; Pi still validates the complete call before execution.
+function decodeToolContainers(value, schema) {
+  if (!schema || typeof schema !== 'object') return value;
+  const types = Array.isArray(schema.type) ? schema.type : [schema.type];
+  if (typeof value === 'string' && (types.includes('object') || types.includes('array'))) {
+    try {
+      const decoded = JSON.parse(value);
+      const type = Array.isArray(decoded) ? 'array' : decoded && typeof decoded === 'object' ? 'object' : null;
+      if (types.includes(type)) value = decoded;
+    } catch { /* Leave malformed JSON for the normal validation and repair loop. */ }
+  }
+  if (Array.isArray(value) && types.includes('array')) {
+    return value.map(item => decodeToolContainers(item, schema.items));
+  }
+  if (value && typeof value === 'object' && !Array.isArray(value) && types.includes('object')) {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) =>
+      [key, decodeToolContainers(item, schema.properties?.[key])]));
+  }
+  return value;
+}
+
+function piCall({ id, name, args }, redact, schema) {
   if (typeof id !== 'string' || !id || typeof name !== 'string' || !name) {
     throw transportError('线上模型的工具调用缺少有效的 ID 或名称。');
   }
   const raw = typeof args === 'string' ? args : JSON.stringify(args ?? {});
   const parsed = parseToolCallArguments(raw);
   if (parsed.argumentsError) parsed.argumentsError = redact(parsed.argumentsError).slice(0, 960);
+  else parsed.arguments = decodeToolContainers(parsed.arguments, schema);
   return { block: { type: 'toolCall', id, name, ...parsed }, delta: parsed.argumentsError ? redact(raw).slice(0, 960) : raw };
 }
 
@@ -185,7 +208,7 @@ function jsonCalls(text, requestIndex) {
   };
 }
 
-function replyBlocks(result, requestIndex, redact) {
+function replyBlocks(result, requestIndex, redact, tools) {
   const { message, finishReason } = result;
   const nativeCalls = Array.isArray(message.tool_calls)
     ? message.tool_calls.map(call => ({ id: call?.id, name: call?.function?.name, args: call?.function?.arguments }))
@@ -197,7 +220,7 @@ function replyBlocks(result, requestIndex, redact) {
   const calls = json?.calls ?? nativeCalls;
   const spoken = json ? json.text : text;
   if (new Set(calls.map(call => call.id)).size !== calls.length) throw transportError('线上模型重复使用了工具调用 ID。');
-  const blocks = calls.map(call => piCall(call, redact));
+  const blocks = calls.map(call => piCall(call, redact, tools.find(tool => tool.function.name === call.name)?.function.parameters));
   if (spoken.trim()) blocks.unshift({ block: { type: 'text', text: spoken }, delta: spoken });
   if (!blocks.length || (finishReason === 'tool_calls' && !calls.length)) throw transportError('线上模型没有返回工具调用或可用文字。');
   return { blocks, json: Boolean(json), stopReason: calls.length ? 'toolUse' : 'stop' };
@@ -307,7 +330,7 @@ export function createPosterPiTransport(upstream, { sessionId, onTrace, getPrevi
           result = await send(false);
         }
         signal?.throwIfAborted();
-        const reply = replyBlocks(result, index, redact);
+        const reply = replyBlocks(result, index, redact, tools);
         if (reply.json) native = false;
         if (typeof result.id === 'string') message.responseId = result.id;
         if (typeof result.responseModel === 'string') message.responseModel = result.responseModel;

@@ -92,7 +92,8 @@ const refinements = [52, 54, 56, 58].map(x => ({
     commands: [{ op: 'arrange', operations: [{ op: 'set', id: 'title', set: { x } }] }],
   },
 }));
-const mockTurns = [invalidCall, validCall, truncatedCall, ...refinements, null];
+const serializedCall = { ...validCall, args: { commands: validCall.args.commands.map(command => JSON.stringify(command)) } };
+const mockTurns = [invalidCall, serializedCall, truncatedCall, ...refinements, null];
 
 function replyTurn(response, number, tool) {
   const message = { role: 'assistant', content: tool ? null : copy };
@@ -140,7 +141,7 @@ function toolFeedback(request, sent) {
   return typeof result.content === 'string' ? result.content : JSON.stringify(result.content);
 }
 
-test('the designer repairs errors, resizes the first draft and publishes its reviewed PNG after approval', { timeout: 30_000 }, async t => {
+test('the designer decodes canvas strings, repairs errors and publishes the reviewed first-draft PNG after approval', { timeout: 30_000 }, async t => {
   const requests = [];
   const upstreamErrors = [];
   const upstream = createServer(async (request, response) => {
@@ -246,6 +247,7 @@ test('the designer repairs errors, resizes the first draft and publishes its rev
     ...refinements.map(call => [call.id, 'ok']),
   ]);
   assert.match(traces[0].output.error, /missing-halo/);
+  assert.ok(traces[1].input.arguments.commands.every(command => typeof command === 'object' && command !== null));
   assert.equal(traces[2].output.executed, false);
   assert.ok(state.toolTraces.some(entry => entry.tool === 'chat.completions' && entry.finishReason === 'length'));
   assert.equal(traces[1].output.preview.sha256, renderedHash);
